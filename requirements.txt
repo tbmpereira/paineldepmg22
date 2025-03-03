@@ -2,4 +2,12 @@ streamlit>=1.42.0
 pandas>=2.2.2
 plotly>=6.0.0
 pydeck>=0.8.0
+
+# Dependências necessárias para geopandas
+shapely
+fiona
+pyproj
+rtree
+
+# Agora, instala o geopandas
 geopandas>=1.0.1

@@ -4,3 +4,5 @@
 __pycache__/
 
 convert_to_parquet.py
+
+ambiente_teste_streamlit/
