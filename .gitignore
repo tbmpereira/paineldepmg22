@@ -1,0 +1,6 @@
+# Ignore all Jupyter notebooks
+*.ipynb
+
+__pycache__/
+
+convert_to_parquet.py
