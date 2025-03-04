@@ -1,0 +1,11 @@
+# Ignore all Jupyter notebooks
+*.ipynb
+__pycache__/
+convert_to_parquet.py
+ambiente_teste_streamlit/
+locais.parquet
+mesoregioes_mg.json
+resultado.parquet
+votacao.parquet
+data.py
+key*
