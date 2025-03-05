@@ -1,10 +1,6 @@
 import streamlit as st
 from estrutura import setup_inicio, sidebar, rodape, ajuda
-<<<<<<< HEAD
 import pandas as pd
-=======
-from data import custo_votos, despesas
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
 import plotly.express as px
 
 setup_inicio()
@@ -12,11 +8,8 @@ setup_inicio()
 # Cache de dados para evitar recarregamento
 @st.cache_data
 def load_data():
-<<<<<<< HEAD
     custo_votos = pd.read_parquet('dados/custo_votos.parquet')
     despesas = pd.read_parquet('dados/despesas_agregadas.parquet')
-=======
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
     return custo_votos, despesas
 
 custo_votos, despesas = load_data()
@@ -72,26 +65,10 @@ with tabs[0]:
 
 with tabs[1]:
     st.markdown("## Gastos por Tipo")
-<<<<<<< HEAD
 
     tipo_despesa = st.selectbox("Tipo de despesa", sorted(despesas['origem_despesa'].unique()), index=None, placeholder="Selecione um tipo de despesa")
     
     dff = despesas.copy()
-=======
-    selecao = st.expander(label="Tipo de despesa", expanded=False)
-    with selecao:
-        tipo_despesa = st.selectbox("Tipo de despesa", sorted(despesas['origem_despesa'].unique()), index=None, placeholder="Selecione um tipo de despesa")
-
-    df = despesas.groupby(["Nome candidato", "origem_despesa"]).agg({
-        "Partido": "first",
-        "numero_candidato": "first",
-        "Situação totalização": "first",
-        "votos": "first",
-        "valor_despesa": "sum",
-    }).reset_index()    
-    
-    dff = df.copy()
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
         
     if situacao:
         dff = dff[dff['Situação totalização'].isin(situacao)]
@@ -110,13 +87,9 @@ with tabs[1]:
         with cols[0]:
             head = st.select_slider("Mostrar os primeiros", options=[5, 10, 15, 20], value=5)
         with cols[1]:
-<<<<<<< HEAD
             if not tipo_despesa:
                 lista_candidatos = dff['Nome candidato'].dropna().unique()
                 candidato = st.selectbox("Para mostrar despesas de apenas um candidato", sorted(lista_candidatos), index=None, placeholder="Selecione um candidato")
-=======
-            candidato = st.selectbox("Para mostrar despesas de apenas um candidato", sorted(dff['Nome candidato'].unique()), index=None, placeholder="Selecione um candidato")
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
         
         if tipo_despesa:
             df_forplot = dff.groupby('Nome candidato')['valor_despesa'].sum().sort_values(ascending=False).head(head).reset_index()

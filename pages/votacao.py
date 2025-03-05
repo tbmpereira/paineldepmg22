@@ -2,50 +2,33 @@ import streamlit as st
 import pandas as pd
 from estrutura import setup_inicio, sidebar, rodape, ajuda_resultados
 import pydeck as pdk
-<<<<<<< HEAD
 import geopandas as gpd
 import plotly.express as px
 import pickle
-=======
-from data import resultadogeo, mesoregioes
-import geopandas as gpd
-import plotly.express as px
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
 
 setup_inicio()
 
 @st.cache_data
 def load_data(ttl=600):
-<<<<<<< HEAD
     resultadogeo = pd.read_parquet('dados/resultadogeo.parquet')
     resultadogeo = resultadogeo[['Nome candidato', 'Partido', 'Situação totalização', 'votos', 'longitude', 'latitude', 'mesorregiao', 'municipio']]
     with open('mesoregioes.pkl', 'rb') as f:
         mesoregioes = pickle.load(f)  
     return resultadogeo, mesoregioes
-=======
-    return resultadogeo[['Nome candidato', 'Partido', 'Situação totalização', 'votos', 'longitude', 'latitude', 'mesorregiao', 'municipio']]
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
 
 @st.cache_data
 def fetch_geojson():
     url = 'http://ide.dev.projetobrumadinho.ufmg.br/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Ameso_mg&outputFormat=json&srs=EPSG%3A4674&srsName=EPSG%3A4674'
     return gpd.read_file(url).to_crs(epsg=4326).__geo_interface__
 
-<<<<<<< HEAD
 resultadogeo, mesoregioes = load_data()
 
-=======
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
 st.title('Mapas Eleitorais')
 
 # Abas para diferentes visualizações
 tab1, tab2 = st.tabs(["Mapa de Calor", "Resultados Agregados"])
 
 with tab1:
-<<<<<<< HEAD
-=======
-    resultadogeo = load_data()
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
     resultadogeo['Situação totalização'] = resultadogeo['Situação totalização'].astype('category')
     resultadogeo['Partido'] = resultadogeo['Partido'].astype('category')
     # Código existente para o mapa de calor
@@ -111,15 +94,26 @@ with tab1:
             'HeatmapLayer',
             data=dff,
             get_position='[longitude, latitude]',
-            get_weight='votos / 100',
-<<<<<<< HEAD
+            get_weight='votos',
             opacity=0.5,
-=======
-            opacity=0.8,
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
             radius_pixels=50,
             intensity=10,
             threshold=0.05
+        )
+
+        text_layer = pdk.Layer(
+            'TextLayer',
+            data=dff,
+            get_position='[longitude, latitude]',
+            get_text='votos',
+            get_color=[0, 0, 0, 255],
+            get_size=16,
+            get_alignment_baseline="'bottom'",
+            get_anchor="'start'",
+            pickable=True,
+            auto_highlight=True,
+            get_text_anchor="'start'",
+            # get_alignment_baseline="'bottom'"
         )
 
         initial_view_state = pdk.ViewState(
@@ -132,7 +126,7 @@ with tab1:
 
         r = pdk.Deck(
             map_style='light',
-            layers=[geojson_layer, heatmap],
+            layers=[geojson_layer, heatmap, text_layer],
             initial_view_state=initial_view_state
         )
 
@@ -162,12 +156,8 @@ with tab2:
                          y="Nome candidato",
                          color="Partido", 
                          labels={"votos": "Total de votos", "Nome candidato": "Candidato"},
-<<<<<<< HEAD
                          orientation='h',
                          hover_data={'Situação totalização': True})
-=======
-                         orientation='h')
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
             
             fig.update_layout(yaxis={'categoryorder':'total ascending'})
             st.plotly_chart(fig)
@@ -189,12 +179,8 @@ with tab2:
                          y="Nome candidato", 
                          color="Partido", 
                          labels={"votos": "Total de votos", "Nome candidato": "Candidato"},
-<<<<<<< HEAD
                          orientation='h',
                          hover_data={'Situação totalização': True})
-=======
-                         orientation='h')
->>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
             fig.update_layout(yaxis={'categoryorder':'total ascending'})
             st.plotly_chart(fig)
 
