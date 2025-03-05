@@ -1,5 +1,6 @@
 # Ignore all Jupyter notebooks
 *.ipynb
+<<<<<<< HEAD
 __pycache__/
 convert_to_parquet.py
 ambiente_teste_streamlit/
@@ -9,3 +10,11 @@ resultado.parquet
 votacao.parquet
 data.py
 key*
+=======
+
+__pycache__/
+
+convert_to_parquet.py
+
+ambiente_teste_streamlit/
+>>>>>>> c7d4bd002f0df47ecb9c98f0cf4debc104a2524b
